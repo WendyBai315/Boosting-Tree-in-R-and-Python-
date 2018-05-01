@@ -1,0 +1,28 @@
+R
+
+The basic one is using the gbm library
+
+boost <- function(shrinkage, loss, ntree, data){
+  gbm.fit = gbm(BinaryLabel ~., data = data,
+                distribution = loss, n.trees = ntree, shrinkage = shrinkage, bag.fraction = 0.8,
+                interaction.depth = 2,  cv.folds = 10)
+  usetree = gbm.perf(gbm.fit)
+  print (shrinkage)
+  print (usetree)
+  print (gbm.fit$cv.error[usetree])
+  return (gbm.fit)
+}
+
+You can start with a small shrinkage number and a large number of trees. The model will tell you the best number of trees for current shrinkage/learning rate. 
+Then, loop through  tune the 
+
+shrinkage.size <- c (0.01, 0.1, 0.5, 1)
+
+
+for (i in shrinkage.size){
+  boost(i, "", 500, train_reg)
+}
+
+
+
+One of the popular function/packages in R is using 
